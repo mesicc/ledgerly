@@ -9,8 +9,6 @@ export const ZRNA = [
   { key: 'year', label: 'Godina' },
 ]
 
-export const GRANICE = { minGodina: 2026, minMjesec: 0, maxGodina: 2026, maxMjesec: 8 }
-
 const pad = (n) => String(n).padStart(2, '0')
 export const isoDan = (g, m, d) => `${g}-${pad(m + 1)}-${pad(d)}`
 const zadnjiDan = (g, m) => new Date(Date.UTC(g, m + 1, 0)).getUTCDate()
@@ -68,14 +66,18 @@ export function pomjeri(zrno, sidro, smjer) {
 
 export const prethodni = (zrno, sidro) => pomjeri(zrno, sidro, -1)
 
-/** Da li pomak ostaje unutar raspona za koji uopće imamo podatke. */
-export function dozvoljen(zrno, sidro) {
+/** Mjesečni indeks (godina × 12 + mjesec) za ISO datum. */
+export const mjesecniIndeks = (isoDatum) =>
+  Number(isoDatum.slice(0, 4)) * 12 + Number(isoDatum.slice(5, 7)) - 1
+
+export const izIndeksa = (i) => ({ godina: Math.floor(i / 12), mjesec: ((i % 12) + 12) % 12 })
+
+/** Da li se period preklapa s rasponom mjeseci u kojem postoje podaci. */
+export function dozvoljen(zrno, sidro, granice) {
   const s = poravnaj(zrno, sidro)
-  const v = s.godina * 12 + s.mjesec
-  const min = GRANICE.minGodina * 12 + GRANICE.minMjesec
-  const max = GRANICE.maxGodina * 12 + GRANICE.maxMjesec
-  if (zrno === 'year') return s.godina >= GRANICE.minGodina && s.godina <= GRANICE.maxGodina
-  return v >= min - (brojMjeseci(zrno) - 1) && v <= max
+  const pocetak = s.godina * 12 + s.mjesec
+  const kraj = pocetak + brojMjeseci(zrno) - 1
+  return kraj >= granice.min && pocetak <= granice.max
 }
 
 export const naslovLimita = (zrno) =>

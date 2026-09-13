@@ -33,16 +33,15 @@ export const catName = (key) => CAT_BY_KEY[key]?.name ?? 'Nepoznato'
 export const catColor = (key, theme) =>
   theme === 'dark' ? (CAT_BY_KEY[key]?.dark ?? '#A3988A') : (CAT_BY_KEY[key]?.light ?? '#7D7264')
 
-// Mjesečni limit potrošnje po kategoriji, u KM. Kategorije bez limita se ne
-// prate u panelu limita (neredovni troškovi se ne planiraju mjesečno).
+// Mjesečni limit potrošnje po kategoriji, u KM. Prate se samo promjenljivi
+// troškovi: stanarina i štednja su fiksne obaveze koje se uvijek plate u punom
+// iznosu, pa bi limit na njima stalno "gorio" bez ikakve korisne informacije.
 export const MONTHLY_LIMITS = {
-  stanarina: 550,
   rezije: 260,
   namirnice: 720,
   gorivo: 170,
   prijevoz: 40,
-  pretplate: 115,
-  stednja: 250,
+  pretplate: 130,
   zdravlje: 100,
   odjeca: 120,
   ostalo: 150,

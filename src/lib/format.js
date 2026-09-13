@@ -69,3 +69,12 @@ export function datumKratko(isoDatum) {
   const [, m, d] = isoDatum.split('-')
   return `${Number(d)}. ${MJESECI_KRATKO[Number(m) - 1]}`
 }
+
+/** Bosanska množina: 1 stavka, 3 stavke, 7 stavki, 12 stavki, 21 stavka. */
+export function mnozina(n, jedna, dvije, pet) {
+  const d = n % 10
+  const s = n % 100
+  if (d === 1 && s !== 11) return jedna
+  if (d >= 2 && d <= 4 && (s < 12 || s > 14)) return dvije
+  return pet
+}
