@@ -78,7 +78,7 @@ function TweaksMenu({ tweaks, onTweaks, onReset }) {
                 onReset()
               }}
             >
-              Vrati početne podatke
+              Učitaj primjer podataka
             </button>
           </div>
         </div>
@@ -87,17 +87,71 @@ function TweaksMenu({ tweaks, onTweaks, onReset }) {
   )
 }
 
+function UserMenu({ korisnik, onOdjava }) {
+  const [otvoren, setOtvoren] = useState(false)
+  const ref = useRef(null)
+
+  useEffect(() => {
+    if (!otvoren) return
+    const klik = (e) => ref.current && !ref.current.contains(e.target) && setOtvoren(false)
+    const tipka = (e) => e.key === 'Escape' && setOtvoren(false)
+    document.addEventListener('mousedown', klik)
+    document.addEventListener('keydown', tipka)
+    return () => {
+      document.removeEventListener('mousedown', klik)
+      document.removeEventListener('keydown', tipka)
+    }
+  }, [otvoren])
+
+  const inicijali = korisnik.ime
+    .split(/\s+/)
+    .filter(Boolean)
+    .slice(0, 2)
+    .map((d) => d[0].toUpperCase())
+    .join('') || korisnik.email[0].toUpperCase()
+
+  return (
+    <div className="popover-anchor" ref={ref}>
+      <button
+        className="avatar"
+        onClick={() => setOtvoren((o) => !o)}
+        aria-expanded={otvoren}
+        aria-label={`Korisnički meni: ${korisnik.ime}`}
+        title={korisnik.ime}
+      >
+        {inicijali}
+      </button>
+      {otvoren && (
+        <div className="popover user-pop" role="menu">
+          <div className="who">
+            <b>{korisnik.ime}</b>
+            <span>{korisnik.email}</span>
+          </div>
+          <a className="menu-item" href="#/" role="menuitem">
+            <Icon name="home" size={15} /> Početna stranica
+          </a>
+          <button className="menu-item" role="menuitem" onClick={onOdjava}>
+            <Icon name="logout" size={15} /> Odjava
+          </button>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function Header({
   zrno, onZrno, sidro, onPomak, mozeNazad, mozeNaprijed,
-  tema, onTema, onIzvoz, onDodaj, tweaks, onTweaks, onReset,
+  tema, onTema, onIzvoz, onDodaj, tweaks, onTweaks, onReset, korisnik, onOdjava,
 }) {
   return (
     <header className="header">
       <div className="brand">
         <div className="brand-row">
           <h1 className="logo">
-            <span className="logo-mark" aria-hidden="true" />
-            Ledgerly
+            <a href="#/" className="logo-link">
+              <span className="logo-mark" aria-hidden="true" />
+              Ledgerly
+            </a>
           </h1>
           <span className="tagline">Kućni budžet domaćinstva</span>
         </div>
@@ -137,6 +191,7 @@ export default function Header({
           <Icon name="plus" />
           Dodaj stavku
         </button>
+        {korisnik && <UserMenu korisnik={korisnik} onOdjava={onOdjava} />}
       </div>
     </header>
   )
