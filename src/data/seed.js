@@ -13,7 +13,8 @@ function lcg(seed) {
   }
 }
 
-const rnd = lcg(20260913)
+const SJEME = 20260913
+let rnd = lcg(SJEME)
 const between = (min, max) => min + rnd() * (max - min)
 const money = (min, max, step = 0.05) =>
   Math.round(between(min, max) / step) * step
@@ -130,6 +131,10 @@ const NEREDOVNI = [
 ]
 
 export function createSeedEntries() {
+  // Svaki poziv kreće od istog sjemena, pa je primjer isti na početnoj stranici
+  // i kod svakog novog korisnika.
+  rnd = lcg(SJEME)
+  seq = 0
   const out = [
     ...fiksniMjesecni(),
     ...NEREDOVNI.map(([m, d, opis, kat, tip, iznos]) =>
