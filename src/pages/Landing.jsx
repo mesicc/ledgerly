@@ -1,4 +1,4 @@
-import { useMemo } from 'react'
+import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from '../auth/AuthContext.jsx'
 import { Icon } from '../components/icons.jsx'
 import { createSeedEntries } from '../data/seed.js'
@@ -39,9 +39,23 @@ function stubic(x, y, w, h, r = 3) {
   return `M${x},${y + h}V${y + rr}Q${x},${y} ${x + rr},${y}H${x + w - rr}Q${x + w},${y} ${x + w},${y + rr}V${y + h}Z`
 }
 
+// Grafikon se crta u stvarnoj širini (ne skalira se preko viewBoxa), da oznake
+// mjeseci ostanu čitljive i na mobitelu.
 function MiniGrafikon({ mjeseci }) {
-  const W = 520
-  const H = 150
+  const omotac = useRef(null)
+  const [W, setW] = useState(520)
+
+  useLayoutEffect(() => {
+    const el = omotac.current
+    if (!el) return
+    const mjeri = (w) => w > 0 && setW(Math.round(w))
+    mjeri(el.getBoundingClientRect().width)
+    const ro = new ResizeObserver(([e]) => mjeri(e.contentRect.width))
+    ro.observe(el)
+    return () => ro.disconnect()
+  }, [])
+
+  const H = W < 400 ? 130 : 150
   const P = { l: 2, r: 2, t: 8, b: 22 }
   const pw = W - P.l - P.r
   const ph = H - P.t - P.b
@@ -49,38 +63,41 @@ function MiniGrafikon({ mjeseci }) {
   const vrh = Math.ceil(maks / 1000) * 1000
   const y = (v) => P.t + ph - (v / vrh) * ph
   const gw = pw / mjeseci.length
-  const sw = 13
   const razmak = 2
+  const sw = Math.max(4, Math.min(13, (gw * 0.7 - razmak) / 2))
 
   return (
-    <svg
-      viewBox={`0 0 ${W} ${H}`}
-      width="100%"
-      role="img"
-      aria-label="Primjer grafikona: mjesečne uplate i troškovi od januara do septembra"
-      style={{ display: 'block' }}
-    >
-      {[0, 0.5, 1].map((t) => (
-        <line
-          key={t}
-          x1={P.l} x2={W - P.r} y1={y(vrh * t)} y2={y(vrh * t)}
-          stroke={t === 0 ? 'var(--baseline)' : 'var(--grid)'}
-          shapeRendering="crispEdges"
-        />
-      ))}
-      {mjeseci.map((m, i) => {
-        const x0 = P.l + gw * i + (gw - (sw * 2 + razmak)) / 2
-        return (
-          <g key={m.key}>
-            <path d={stubic(x0, y(m.uplate), sw, y(0) - y(m.uplate))} fill="var(--income)" />
-            <path d={stubic(x0 + sw + razmak, y(m.trosak), sw, y(0) - y(m.trosak))} fill="var(--expense)" />
-            <text className="chart-axis-x" x={P.l + gw * i + gw / 2} y={H - 6} textAnchor="middle" style={{ fontSize: 11 }}>
-              {m.label}
-            </text>
-          </g>
-        )
-      })}
-    </svg>
+    <div ref={omotac}>
+      <svg
+        width={W}
+        height={H}
+        viewBox={`0 0 ${W} ${H}`}
+        role="img"
+        aria-label="Primjer grafikona: mjesečne uplate i troškovi od januara do septembra"
+        style={{ display: 'block', maxWidth: '100%' }}
+      >
+        {[0, 0.5, 1].map((t) => (
+          <line
+            key={t}
+            x1={P.l} x2={W - P.r} y1={y(vrh * t)} y2={y(vrh * t)}
+            stroke={t === 0 ? 'var(--baseline)' : 'var(--grid)'}
+            shapeRendering="crispEdges"
+          />
+        ))}
+        {mjeseci.map((m, i) => {
+          const x0 = P.l + gw * i + (gw - (sw * 2 + razmak)) / 2
+          return (
+            <g key={m.key}>
+              <path d={stubic(x0, y(m.uplate), sw, y(0) - y(m.uplate))} fill="var(--income)" />
+              <path d={stubic(x0 + sw + razmak, y(m.trosak), sw, y(0) - y(m.trosak))} fill="var(--expense)" />
+              <text className="chart-axis-x" x={P.l + gw * i + gw / 2} y={H - 6} textAnchor="middle" style={{ fontSize: 11 }}>
+                {m.label}
+              </text>
+            </g>
+          )
+        })}
+      </svg>
+    </div>
   )
 }
 

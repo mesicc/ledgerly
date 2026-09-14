@@ -757,20 +757,62 @@ a.btn { text-decoration: none; }
   color: var(--muted);
 }
 
+/* Tačke loma početne: 1100 laptop, 960 tablet (jedna kolona u heroju),
+   800 uski tablet (koraci jedan ispod drugog), 640 mobitel, 360 vrlo uski ekrani. */
+@media (max-width: 1100px) {
+  .hero { gap: 40px; }
+  .features { gap: 16px; }
+}
 @media (max-width: 960px) {
   .hero, .privacy { grid-template-columns: 1fr; gap: 40px; }
   .hero { padding: 48px 0 56px; }
-  .features { grid-template-columns: 1fr 1fr; }
+  .hero-lead { max-width: 60ch; }
+  .features { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .nav-links { display: none; }
+}
+@media (max-width: 800px) {
+  .steps { grid-template-columns: 1fr; }
+  .step { display: grid; grid-template-columns: 40px minmax(0, 1fr); column-gap: 10px; padding: 20px 0; }
+  .step + .step { padding-left: 0; border-left: 0; border-top: 1px solid var(--border); }
+  .step-num { grid-row: span 2; margin: 3px 0 0; }
 }
 @media (max-width: 640px) {
   .site { padding: 0 16px; }
-  .features, .steps { grid-template-columns: 1fr; }
-  .step { padding: 20px 0; }
-  .step + .step { padding-left: 0; border-left: 0; border-top: 1px solid var(--border); }
-  .preview-kpis, .preview-cats { grid-template-columns: 1fr; }
-  .cta-band { padding: 28px 22px; }
+  .site-nav { gap: 8px; padding: 14px 0; }
+  .site-nav .logo-link { font-size: 19px; }
+  .nav-actions { gap: 6px; }
+  .nav-actions .btn { height: 34px; padding: 0 11px; }
+
+  .hero { padding: 36px 0 48px; gap: 32px; }
+  .hero h1 { margin-bottom: 16px; font-size: 34px; }
+  .hero-lead { margin-bottom: 24px; font-size: 16px; }
+  .hero-cta .btn { flex: 1 1 100%; justify-content: center; }
+
+  .preview { padding: 14px; }
+  .preview-kpis { gap: 6px; }
+  .preview-kpi { padding: 8px 9px; }
+  .preview-kpi span { font-size: 9.5px; letter-spacing: 0.05em; }
+  .preview-kpi b { font-size: 14px; letter-spacing: -0.03em; }
+  .preview-chart { padding: 8px 8px 2px; }
+  .preview-cats { grid-template-columns: 1fr; gap: 10px; }
+
+  .section { padding: 48px 0; }
+  .section-head { margin-bottom: 28px; }
+  .section-head p:not(.eyebrow) { font-size: 15px; }
+  .features { grid-template-columns: 1fr; gap: 12px; }
+  .feature { display: grid; grid-template-columns: 36px minmax(0, 1fr); column-gap: 14px; padding: 18px; }
+  .feature-icon { grid-row: span 2; margin-bottom: 0; }
+  .privacy { gap: 24px; }
+
+  .cta-band { margin-bottom: 48px; padding: 28px 20px; }
+  .cta-band h2 { font-size: 22px; }
+  .cta-band .btn { flex: 1 1 100%; justify-content: center; }
+  .site-footer { flex-direction: column; gap: 6px; }
+}
+@media (max-width: 360px) {
   .nav-actions .btn.ghost { display: none; }
+  .hero h1 { font-size: 30px; }
+  .preview-kpis { grid-template-columns: 1fr; }
 }
 
 /* ---------- prijava / registracija ---------- */
