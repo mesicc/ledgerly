@@ -22,8 +22,8 @@ import EntryModal from '../components/EntryModal.jsx'
 
 // Stavke i podešavanja čuvaju se odvojeno za svakog korisnika.
 const kljucevi = (email) => ({
-  stavke: `ledgerly.entries.v1:${email}`,
-  tweaks: `ledgerly.tweaks.v1:${email}`,
+  stavke: `filuza.entries.v1:${email}`,
+  tweaks: `filuza.tweaks.v1:${email}`,
 })
 
 const ZADANI_TWEAKS = { pocetniPeriod: 'month', prikaziLimite: true, skraceno: false }
@@ -147,7 +147,7 @@ export default function Dashboard() {
       obavijesti('Nema stavki za izvoz u ovom periodu.')
       return
     }
-    const ime = `ledgerly-${oznakaKratka(zrno, sidro)}${filter ? `-${filter}` : ''}.csv`
+    const ime = `filuza-${oznakaKratka(zrno, sidro)}${filter ? `-${filter}` : ''}.csv`
     preuzmi(napraviCSV(redovi), ime)
     obavijesti(`Izvezeno ${redovi.length} ${mnozina(redovi.length, 'stavka', 'stavke', 'stavki')} u ${ime}`)
   }

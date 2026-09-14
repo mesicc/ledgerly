@@ -2,8 +2,8 @@ import { describe, expect, it } from 'vitest'
 import { AuthGreska, odjavi, prijavi, registruj, trenutnaSesija } from './authService.js'
 
 const AMILA = { ime: 'Amila Hodžić', email: 'amila@primjer.ba', lozinka: 'tajna1234' }
-const SESIJA = 'ledgerly.session.v1'
-const KORISNICI = 'ledgerly.users.v1'
+const SESIJA = 'filuza.session.v1'
+const KORISNICI = 'filuza.users.v1'
 
 describe('authService — registracija', () => {
   it('pravi račun, normalizuje e-mail i odmah otvara zapamćenu sesiju', async () => {

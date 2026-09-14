@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { ZRNA, oznaka } from '../lib/period.js'
 import { Icon } from './icons.jsx'
+import Logo from './Logo.jsx'
 
 function Switch({ checked, onChange, label }) {
   return (
@@ -149,8 +150,8 @@ export default function Header({
         <div className="brand-row">
           <h1 className="logo">
             <a href="#/" className="logo-link">
-              <span className="logo-mark" aria-hidden="true" />
-              Ledgerly
+              <Logo />
+              Filuza
             </a>
           </h1>
           <span className="tagline">Kućni budžet domaćinstva</span>

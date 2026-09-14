@@ -69,7 +69,7 @@ describe('registracija', () => {
     expect(screen.getByText('Upišite ispravnu e-mail adresu.')).toBeInTheDocument()
     expect(screen.getByText('Lozinka mora imati najmanje 8 znakova.')).toBeInTheDocument()
     expect(screen.getByLabelText('Ime')).toHaveFocus()
-    expect(localStorage.getItem('ledgerly.users.v1')).toBeNull()
+    expect(localStorage.getItem('filuza.users.v1')).toBeNull()
     expect(window.location.hash).toBe('#/registracija')
   })
 
@@ -89,7 +89,7 @@ describe('registracija', () => {
     await user.click(screen.getByRole('button', { name: 'Napravi račun' }))
 
     expect(screen.getByText('Lozinke se ne podudaraju.')).toBeInTheDocument()
-    expect(localStorage.getItem('ledgerly.users.v1')).toBeNull()
+    expect(localStorage.getItem('filuza.users.v1')).toBeNull()
   })
 
   it('uspješna registracija otvara dashboard s primjerom podataka', async () => {
@@ -157,8 +157,8 @@ describe('prijava', () => {
     await popuniPrijavu(user, { zapamti: false })
     await dashboardJeOtvoren()
 
-    expect(sessionStorage.getItem('ledgerly.session.v1')).not.toBeNull()
-    expect(localStorage.getItem('ledgerly.session.v1')).toBeNull()
+    expect(sessionStorage.getItem('filuza.session.v1')).not.toBeNull()
+    expect(localStorage.getItem('filuza.session.v1')).toBeNull()
   })
 
   it('dugme za prikaz lozinke mijenja tip polja', async () => {

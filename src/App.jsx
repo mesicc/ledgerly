@@ -6,10 +6,10 @@ import AuthPage from './pages/AuthPage.jsx'
 import Dashboard from './pages/Dashboard.jsx'
 
 const NASLOVI = {
-  '/': 'Ledgerly — kućni budžet domaćinstva',
-  '/prijava': 'Prijava — Ledgerly',
-  '/registracija': 'Registracija — Ledgerly',
-  '/dashboard': 'Pregled — Ledgerly',
+  '/': 'Filuza — kućni budžet domaćinstva',
+  '/prijava': 'Prijava — Filuza',
+  '/registracija': 'Registracija — Filuza',
+  '/dashboard': 'Pregled — Filuza',
 }
 
 // Preusmjerava samo ako je korisnik još uvijek na ruti koja je tražila

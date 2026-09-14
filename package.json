@@ -1,5 +1,6 @@
 {
-  "name": "ledgerly",
+  "name": "filuza",
+  "description": "Filuza — kućni budžet domaćinstva: prihodi i rashodi po mjesecu, kvartalu i godini.",
   "private": true,
   "version": "1.0.0",
   "type": "module",

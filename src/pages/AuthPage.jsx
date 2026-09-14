@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { useAuth } from '../auth/AuthContext.jsx'
 import { Icon } from '../components/icons.jsx'
+import Logo from '../components/Logo.jsx'
 import { idi } from '../lib/router.js'
 import { useTema } from '../lib/useTema.js'
 
@@ -93,8 +94,8 @@ export default function AuthPage({ mod }) {
     <div className="auth">
       <header className="auth-top">
         <a href="#/" className="logo-link">
-          <span className="logo-mark" aria-hidden="true" />
-          Ledgerly
+          <Logo />
+          Filuza
         </a>
         <button
           className="icon-btn"

@@ -1,6 +1,7 @@
 import { useLayoutEffect, useMemo, useRef, useState } from 'react'
 import { useAuth } from '../auth/AuthContext.jsx'
 import { Icon } from '../components/icons.jsx'
+import Logo from '../components/Logo.jsx'
 import { createSeedEntries } from '../data/seed.js'
 import { kpi, poKategorijama, serijeKrozVrijeme, uPeriodu } from '../lib/compute.js'
 import { broj, km, postotak } from '../lib/format.js'
@@ -163,8 +164,8 @@ export default function Landing() {
     <div className="site">
       <nav className="site-nav" aria-label="Glavna navigacija">
         <a href="#/" className="logo-link">
-          <span className="logo-mark" aria-hidden="true" />
-          Ledgerly
+          <Logo />
+          Filuza
         </a>
         <div className="nav-links">
           <button className="nav-link" onClick={() => skrolaj('mogucnosti')}>Mogućnosti</button>
@@ -198,7 +199,7 @@ export default function Landing() {
           <p className="eyebrow">Kućni budžet za domaćinstva</p>
           <h1>Znajte gdje ide svaka marka.</h1>
           <p className="hero-lead">
-            Ledgerly sabira plate, račune i sitne troškove na jedno mjesto. Vidite koliko je ušlo,
+            Filuza sabira plate, račune i sitne troškove na jedno mjesto. Vidite koliko je ušlo,
             koliko je potrošeno i koliko ostaje — po mjesecu, kvartalu ili godini.
           </p>
           <div className="hero-cta">
@@ -258,7 +259,7 @@ export default function Landing() {
           <p className="eyebrow">Privatnost</p>
           <h2>Vaši podaci ostaju kod vas.</h2>
           <p>
-            U ovoj verziji Ledgerly sve čuva lokalno, u vašem browseru: račun, stavke i podešavanja.
+            U ovoj verziji Filuza sve čuva lokalno, u vašem browseru: račun, stavke i podešavanja.
             Ništa se ne šalje na server.
           </p>
         </div>
@@ -289,7 +290,7 @@ export default function Landing() {
       </section>
 
       <footer className="site-footer">
-        <span>© 2026 Ledgerly · Kućni budžet domaćinstva</span>
+        <span>© 2026 Filuza · Kućni budžet domaćinstva</span>
         <span>Svi iznosi u konvertibilnim markama (KM)</span>
       </footer>
     </div>

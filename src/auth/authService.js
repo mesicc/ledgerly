@@ -1,6 +1,6 @@
 // Autentikacija u browseru.
 //
-// Ova verzija Ledgerlyja nema server: računi se čuvaju u localStorage, a
+// Ova verzija Filuze nema server: računi se čuvaju u localStorage, a
 // lozinke se nikad ne spremaju u čitljivom obliku — čuva se samo PBKDF2-SHA256
 // hash sa nasumičnom soli po korisniku. To štiti lozinku ako neko pogleda
 // spremljene podatke, ali NIJE zamjena za pravi backend: sve je u jednom browseru.
@@ -9,8 +9,8 @@
 // koji ostatak aplikacije koristi — za pravi server dovoljno ih je zamijeniti
 // pozivima API-ja.
 
-const KORISNICI = 'ledgerly.users.v1'
-const SESIJA = 'ledgerly.session.v1'
+const KORISNICI = 'filuza.users.v1'
+const SESIJA = 'filuza.session.v1'
 const ITERACIJE = 150_000
 
 export class AuthGreska extends Error {

@@ -9,7 +9,7 @@ export function useTema() {
   )
   useEffect(() => {
     document.documentElement.dataset.theme = tema
-    sacuvajTekst('ledgerly.theme', tema)
+    sacuvajTekst('filuza.theme', tema)
   }, [tema])
   return [tema, () => setTema((t) => (t === 'dark' ? 'light' : 'dark'))]
 }
