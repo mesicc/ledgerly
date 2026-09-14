@@ -183,9 +183,9 @@ export default function Header({
           <Icon name={tema === 'dark' ? 'sun' : 'moon'} />
         </button>
         <TweaksMenu tweaks={tweaks} onTweaks={onTweaks} onReset={onReset} />
-        <button className="btn" onClick={onIzvoz}>
+        <button className="btn btn-export" onClick={onIzvoz} aria-label="Izvoz CSV" title="Izvoz CSV">
           <Icon name="download" />
-          Izvoz CSV
+          <span className="btn-label">Izvoz CSV</span>
         </button>
         <button className="btn primary" onClick={onDodaj}>
           <Icon name="plus" />

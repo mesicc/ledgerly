@@ -227,7 +227,6 @@ svg.i { width: 16px; height: 16px; stroke: currentColor; fill: none; stroke-widt
 
 /* ---------- KPI ---------- */
 .kpis { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px; }
-@media (max-width: 820px) { .kpis { grid-template-columns: 1fr; } }
 .kpi { padding: 18px 20px 18px; position: relative; overflow: hidden; }
 .kpi::before {
   content: '';
@@ -894,4 +893,112 @@ a.btn { text-decoration: none; }
 @media (max-width: 640px) {
   .auth { padding: 0 16px; }
   .auth-card { padding: 22px 18px; }
+}
+
+/* =====================================================================
+   Dashboard — responzivnost
+   Tačke loma: 1080 (paneli u punoj širini, limiti i sažetak u dvije kolone),
+   1000 / 860 (KPI kartice), 640 (mobitel), 420 (vrlo uski ekrani).
+   ===================================================================== */
+.legend { flex-wrap: wrap; row-gap: 4px; }
+.overlay { overflow-y: auto; }
+.modal { max-height: calc(100vh - 32px); overflow-y: auto; }
+.toast { width: max-content; max-width: calc(100vw - 32px); }
+
+@media (max-width: 1080px) and (min-width: 700px) {
+  .stack.span-4 { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; }
+  .stack.span-4 > :only-child { grid-column: 1 / -1; }
+}
+@media (max-width: 1000px) {
+  .kpi-value { font-size: 24px; }
+  .kpi-value .cur { font-size: 13px; }
+}
+@media (max-width: 860px) {
+  .kpis { grid-template-columns: 1fr; gap: 12px; }
+  .kpi-value { font-size: 28px; }
+}
+/* Na ekranima bez miša nema hovera — akcije u redu moraju biti vidljive. */
+@media (hover: none) {
+  .row-actions { opacity: 1; }
+}
+
+@media (max-width: 640px) {
+  .grid, .stack { gap: 14px; }
+
+  /* header: logo i period gore, pa prebacivač perioda u punoj širini, pa akcije */
+  .header { flex-direction: column; align-items: stretch; gap: 14px; padding-bottom: 16px; margin-bottom: 16px; }
+  .logo { font-size: 22px; }
+  .tagline { display: none; }
+  .period-nav { margin-left: -6px; }
+  .toolbar { gap: 6px; }
+  .toolbar > .seg { order: -1; flex: 1 1 100%; }
+  .toolbar > .seg button { flex: 1; }
+  .toolbar > .btn.primary { flex: 1; justify-content: center; }
+  .btn-export { width: 34px; padding: 0; justify-content: center; }
+  .btn-export .btn-label { display: none; }
+  /* meniji se otvaraju kao donji panel, da nikad ne izađu van ekrana */
+  .popover {
+    position: fixed;
+    top: auto;
+    left: 12px;
+    right: 12px;
+    bottom: 12px;
+    width: auto;
+    max-height: calc(100vh - 24px);
+    overflow-y: auto;
+  }
+
+  .kpi { padding: 14px 16px; }
+  .kpi-value { margin: 6px 0 4px; font-size: 26px; }
+  .card-head { padding: 14px 16px 0; }
+  .card-body { padding: 12px 16px 16px; }
+
+  /* chipovi u jednom redu koji se skrola vodoravno */
+  .chips { flex-wrap: nowrap; overflow-x: auto; padding: 12px 16px 2px; scrollbar-width: none; }
+  .chips::-webkit-scrollbar { display: none; }
+  .chip { flex: none; }
+
+  /* tabela stavki postaje lista: opis i iznos gore, datum, kategorija i akcije ispod */
+  .table-scroll { overflow-x: visible; }
+  table.entries, .entries tbody { display: block; }
+  .entries thead { display: none; }
+  .entries tr {
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr) auto;
+    grid-template-areas:
+      'desc desc amount'
+      'date cat actions';
+    column-gap: 10px;
+    row-gap: 2px;
+    align-items: center;
+    padding: 10px 16px;
+    border-bottom: 1px solid var(--grid);
+  }
+  .entries td, .entries td:first-child, .entries td:last-child { display: block; padding: 0; border: 0; }
+  .entries tbody tr:hover td { background: none; }
+  .entries td.desc { grid-area: desc; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 500; }
+  .entries td.amount { grid-area: amount; }
+  .entries td.date { grid-area: date; font-size: 12px; }
+  .entries td.cat { grid-area: cat; min-width: 0; overflow: hidden; font-size: 12px; }
+  .entries td.actions { grid-area: actions; }
+  .row-actions { opacity: 1; margin-right: -6px; }
+  .table-foot { padding: 12px 16px 14px; }
+  .net { gap: 4px 14px; }
+
+  .stat { padding: 10px 12px; }
+  .stat-value { font-size: 15px; }
+  .welcome { padding: 16px; }
+  .welcome-actions, .welcome-actions .btn { width: 100%; }
+  .welcome-actions .btn { justify-content: center; }
+
+  /* 16px u poljima sprečava automatsko zumiranje na iOS-u */
+  .field input, .field select { font-size: 16px; }
+  .modal-head { padding: 16px 16px 4px; }
+  .modal form { padding: 12px 16px 16px; }
+}
+
+@media (max-width: 420px) {
+  .field-row { grid-template-columns: 1fr; }
+  .stats { grid-template-columns: 1fr; }
+  .modal-actions { flex-wrap: wrap; }
 }

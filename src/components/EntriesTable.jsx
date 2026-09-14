@@ -77,7 +77,7 @@ export default function EntriesTable({ stavke, kljucPerioda, oznakaPerioda, filt
                 <tr key={s.id}>
                   <td className="date num">{datum(s.date)}</td>
                   <td className="desc">{s.description}</td>
-                  <td>
+                  <td className="cat">
                     <span className="cat-tag">
                       <i className="dot" style={{ background: `var(--cat-${s.category})` }} />
                       {catName(s.category)}
@@ -87,7 +87,7 @@ export default function EntriesTable({ stavke, kljucPerioda, oznakaPerioda, filt
                     {s.type === 'income' ? '+' : '−'}
                     {broj(s.amount)}
                   </td>
-                  <td>
+                  <td className="actions">
                     <div className="row-actions">
                       <button className="icon-btn sm" onClick={() => onUredi(s)} aria-label={`Uredi: ${s.description}`} title="Uredi">
                         <Icon name="pencil" size={15} />

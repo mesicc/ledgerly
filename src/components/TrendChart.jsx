@@ -14,9 +14,6 @@ const SERIJE = [
   { key: 'troskovi', polje: 'trosak', label: 'Troškovi', boja: 'var(--expense)' },
 ]
 
-const VISINA = 260
-const P = { l: 58, r: 8, t: 14, b: 30 }
-
 function lijepKorak(sirovi) {
   const e = Math.pow(10, Math.floor(Math.log10(sirovi)))
   const f = sirovi / e
@@ -34,6 +31,11 @@ export default function TrendChart({ serije, zrno, serija, onSerija, skraceno })
   const omotac = useRef(null)
   const [sirina, setSirina] = useState(720)
   const [hover, setHover] = useState(null)
+
+  // Na uskim ekranima: niži grafikon, uža osa i skraćene vrijednosti na osi.
+  const uzak = sirina < 480
+  const VISINA = uzak ? 220 : 260
+  const P = uzak ? { l: 42, r: 4, t: 14, b: 30 } : { l: 58, r: 8, t: 14, b: 30 }
 
   useLayoutEffect(() => {
     const el = omotac.current
@@ -57,6 +59,8 @@ export default function TrendChart({ serije, zrno, serija, onSerija, skraceno })
 
   const n = serije.length
   const gw = pw / n
+  // Kad su kolone preuske za sve oznake (npr. 12 mjeseci na mobitelu), prikaži svaku drugu.
+  const korakOznake = gw < 30 ? 2 : 1
   const k = vidljive.length
   const razmak = 2
   const maxStub = n <= 5 ? 34 : n <= 6 ? 30 : 18
@@ -68,7 +72,7 @@ export default function TrendChart({ serije, zrno, serija, onSerija, skraceno })
     trosak: serije.reduce((a, b) => a + b.trosak, 0),
   }
   const prazno = serije.every((b) => b.uplate === 0 && b.trosak === 0)
-  const osa = (v) => (skraceno ? brojSkraceno(v) : broj(v, 0))
+  const osa = (v) => (skraceno || uzak ? brojSkraceno(v) : broj(v, 0))
 
   const h = hover != null ? serije[hover] : null
   const tipX = hover != null ? Math.min(Math.max(P.l + gw * hover + gw / 2, 100), sirina - 100) : 0
@@ -142,9 +146,11 @@ export default function TrendChart({ serije, zrno, serija, onSerija, skraceno })
                       />
                     )
                   })}
-                  <text className="chart-axis-x" x={gx + gw / 2} y={VISINA - 8} textAnchor="middle">
-                    {b.label}
-                  </text>
+                  {i % korakOznake === 0 && (
+                    <text className="chart-axis-x" x={gx + gw / 2} y={VISINA - 8} textAnchor="middle">
+                      {b.label}
+                    </text>
+                  )}
                   <rect
                     x={gx} y={P.t} width={gw} height={ph + P.b}
                     fill="transparent"
